@@ -1,0 +1,17 @@
+create databases if not exists tubesbasdat;
+
+create table if not exists drug_reviews(
+	id INT,
+	condition STRING,
+	tanggal DATE,
+	drugName STRING,
+	rating INT,
+	review STRING,
+	usefulCount INT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
+	
+LOAD DATA INPATH '/user/cevas/drug_reviews.csv'
+OVERWRITE INTO TABLE drug_reviews;
+
