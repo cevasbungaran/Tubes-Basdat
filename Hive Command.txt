@@ -1,3 +1,5 @@
+----Load Data
+
 create databases if not exists tubesbasdat;
 
 create table if not exists drug_reviews(
@@ -12,6 +14,45 @@ create table if not exists drug_reviews(
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ',';
 	
-LOAD DATA INPATH '/user/cevas/drug_reviews.csv'
-OVERWRITE INTO TABLE drug_reviews;
+LOAD DATA INPATH '/user/cevas/drug_reviews_cleaned.csv' INTO TABLE drug_reviews;
+
+create table if not exists amazon_books_reviews(
+	id INT,
+	marketplace STRING,
+	customer_id INT,
+	review_id STRING,
+	product_id INT,
+	product_parent INT,
+	product_title STRING,
+	product_category STRING,
+	star_rating INT,
+	helpful_votes INT,
+	total_votes INT,
+	vine INT,
+	verified_purchase INT,
+	review_headline STRING,
+	review_body STRING,
+	review_date DATE
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
+LOAD DATA INPATH '/user/cevas/amazon_books_reviews_cleaned.csv' INTO TABLE amazon_books_reviews;
+
+----Dimensional Table untuk amazon_books_reviews
+CREATE TABLE product (
+  product_id INT,
+  product_parent INT,
+  product_title STRING,
+  product_category STRING,
+  marketplace STRING,
+  PRIMARY KEY (product_id)
+);
+
+CREATE TABLE review (
+  review_id INT,
+  review_headline STRING,
+  review_body STRING,
+  review_date DATE,
+  PRIMARY KEY (review_id)
+);
 
